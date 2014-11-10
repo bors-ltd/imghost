@@ -64,7 +64,7 @@
         {% if meme.thumb_small %}
         <div class="col-xs-6 col-md-2 img">
             <a href="{% url 'detail' meme.unique_key %}">
-                <img src="{{ meme.thumb_small.url }}">
+                <img src="{{ meme.thumb_small.url }}" class="img-thumbnail">
             </a>
         </div>
         {% endif %}
