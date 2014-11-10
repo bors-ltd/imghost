@@ -16,6 +16,10 @@ def get_prod_setting(setting):
         raise ImproperlyConfigured(error_msg)
 
 
+DEBUG = False
+
+TEMPLATE_DEBUG = False
+
 INSTALLED_APPS += (
     'raven.contrib.django.raven_compat',
 )
