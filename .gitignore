@@ -27,13 +27,14 @@ build
 # Public asset (static and media) files
 # Those files are either user generated (file uploads) or temporary
 # (generated with collectstatic)
-public/
+/public/
 
 # Private uploaded files
 # Those files are user generated, but must no be served with the
 # web server
-private/
+/private/
 
 TODO
 
 docs/_build
+/node_modules
