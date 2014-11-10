@@ -18,7 +18,7 @@
     </div>
 
     <div class="col-md-4">
-    {% if request.user.is_authenticated %}
+    {% if perms.images.add_image %}
         <form method="POST" action="{% url 'upload' %}" enctype="multipart/form-data" role="form">
             {% csrf_token %}
 

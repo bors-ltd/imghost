@@ -12,7 +12,7 @@
             </figcaption>
             {% endif %}
         </figure>
-        {% if perms.images.add_image %}
+        {% if request.user.is_staff and perms.images.change_image %}
             <p><a href="{% url 'admin:images_image_change' image.pk %}" class="btn btn-danger">Admin</a></p>
         {% endif %}
     </div>
