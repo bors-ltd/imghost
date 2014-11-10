@@ -1,7 +1,12 @@
-<section class="well">
-  {% for tag in tags.all %}
-    <a href="{% url 'image_list' %}?tags={{ tag.name }}">
-      <span class="label label-default">{{ tag.name }}</span>
-    </a>
-  {% endfor %}
-</section>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Tags</h3>
+    </div>
+    <div class="panel-body">
+        {% for tag in tags.all %}
+            <a href="{% url 'image_list' %}?tags={{ tag.name }}">
+                <span class="label label-default">{{ tag.name }}</span>&nbsp;
+            </a>
+        {% endfor %}
+    </div>
+</div>
