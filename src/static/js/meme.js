@@ -60,6 +60,7 @@ jQuery(function($) {
     var submitForm = function(event) {
         event.preventDefault();
 
+        $("#meme-form-errors").html("");
         var fileInput = form.find('input[name=file]');
         fileInput.val(imgCanvas[0].toDataURL());
         var data = form.serialize();
@@ -69,8 +70,18 @@ jQuery(function($) {
             data: data,
             dataType: 'json',
             success: function(data) {
-                window.location.href = data.redirect;
-            },
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                }
+                else if (data.errors) {
+                    var template = $("#templates .non-field-error");
+                    for (var i = 0; i < data.errors.length; i++) {
+                        var error = template.clone();
+                        error.text(data.errors[i]);
+                        $("#meme-form-errors").append(error);
+                    }
+                }
+            }
         });
     };
 

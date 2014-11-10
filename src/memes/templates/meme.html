@@ -28,7 +28,13 @@
             <input type="hidden" name="file" value="">
             <input type="hidden" name="mime" value="{{ mime }}">
             <input type="submit" value="Upload meme" class="btn btn-block btn-primary">
+            <div id="meme-form-errors" class="form-group has-error"></div>
         </form>
     </div>
 </div>
+
+<div id="templates" style="display: none">
+  <div class="alert alert-danger non-field-error"></div>'
+</div>
+
 {% endblock %}

@@ -1,6 +1,10 @@
-import re
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, print_function, unicode_literals
 from cStringIO import StringIO
+import re
+
 from django import forms
+from django.core.exceptions import ValidationError
 from django.core.files.images import ImageFile
 
 from images.models import Image
@@ -10,8 +14,8 @@ class MemeUploadForm(forms.Form):
     source_image = forms.ModelChoiceField(Image.objects.all())
     file = forms.CharField()
     mime = forms.CharField()
-    top_text = forms.CharField()
-    bottom_text = forms.CharField()
+    top_text = forms.CharField(required=False)
+    bottom_text = forms.CharField(required=False)
 
     def clean_file(self):
         data = self.cleaned_data['file']
@@ -21,3 +25,9 @@ class MemeUploadForm(forms.Form):
         img = ImageFile(imgcontent, name='temp.png')
 
         return img
+
+    def clean(self):
+        cleaned_data = super(MemeUploadForm, self).clean()
+        if not cleaned_data['top_text'] and not cleaned_data['bottom_text']:
+            raise ValidationError("WHY U NO TYPE TEXT ლ(ಠ益ಠლ)")
+        return cleaned_data

@@ -13,20 +13,25 @@ def meme(request, unique_key):
     image = get_object_or_404(Image, unique_key=unique_key)
     mime = mimetypes.guess_type(image.image.url)[0]
 
-    form = MemeUploadForm(request.POST or None)
-    if form.is_valid():
-        data = form.cleaned_data
-        img = Image.objects.create(
-            image=data['file'],
-            source='',
-            extension='png',
-            is_meme=True,
-            source_image=data['source_image']
-        )
+    if request.method == 'POST':
+        form = MemeUploadForm(data=request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            img = Image.objects.create(
+                image=data['file'],
+                source='',
+                extension='png',
+                is_meme=True,
+                source_image=data['source_image']
+            )
 
-        json_data = json.dumps({
-            'redirect': img.get_absolute_url()
-        })
+            json_data = json.dumps({
+                'redirect': img.get_absolute_url()
+            })
+        else:
+            json_data = json.dumps({
+                'errors': form.errors["__all__"],
+            })
         return HttpResponse(json_data, content_type="application/x-javascript")
 
     return {
