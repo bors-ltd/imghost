@@ -1,0 +1,5 @@
+<section class="tags well">
+  {% for tag in tags.all %}
+    <a href="{% url 'image_list' %}?tags={{ tag.name }}"><span class="label label-default">{{ tag.name }}</span></a>
+  {% endfor %}
+</section>

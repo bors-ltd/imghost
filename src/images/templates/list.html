@@ -18,18 +18,20 @@
     </div>
 
     <div class="col-md-4">
-    {% if perms.images.add_image %}
-        <form method="POST" action="{% url 'upload' %}" enctype="multipart/form-data" role="form">
+      {% if perms.images.add_image %}
+        <form method="POST" action="{% url 'upload' %}" enctype="multipart/form-data" class="form" role="form">
             {% csrf_token %}
 
             {% include 'form_snippet.html' with form=form %}
 
-            <input class="btn btn-primary btn-block" type="submit" value="{{ _('Send') }}">
+            <div class="form-group">
+              <input class="btn btn-primary btn-block" type="submit" value="{{ _('Send') }}">
+            </div>
         </form>
+      {% endif %}
+
+      {% include "tags_snippet.html" %}
+
     </div>
-    {% else %}
-        Salut !
-    {% endif %}
 </div>
 {% endblock %}
-

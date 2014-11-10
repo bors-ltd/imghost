@@ -4,7 +4,7 @@ from annoying.decorators import render_to
 
 from images.forms import UploadForm
 from images.utils import download_image
-from images.models import Image
+from images.models import Image, Tag
 
 
 @render_to('upload.html')
@@ -36,10 +36,18 @@ def upload(request):
 @render_to('list.html')
 def list(request):
     images = Image.objects.filter(is_meme=False)
+
+    tags = request.GET.getlist('tags')
+    if tags:
+        images = images.filter(tags__name__in=tags)
+
+    tags = Tag.objects.all()
+
     form = UploadForm()
 
     return {
         'images': images,
+        'tags': tags,
         'form': form,
     }
 

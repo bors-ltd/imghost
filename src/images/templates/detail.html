@@ -12,8 +12,15 @@
             </figcaption>
             {% endif %}
         </figure>
+
+        {% include "tags_snippet.html" with tags=image.tags %}
+
         {% if request.user.is_staff and perms.images.change_image %}
-            <p><a href="{% url 'admin:images_image_change' image.pk %}" class="btn btn-danger">Admin</a></p>
+          <form class="form" role="form">
+            <div class="form-group">
+              <a href="{% url 'admin:images_image_change' image.pk %}" class="btn btn-danger">Admin</a>
+            </div>
+          </form>
         {% endif %}
     </div>
 

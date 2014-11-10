@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, print_function, unicode_literals
 from os.path import splitext
 import random
 import string
@@ -5,6 +7,7 @@ import string
 from django.db import models
 from django.utils import timezone
 from django.core.urlresolvers import reverse
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from images.utils import create_thumb
@@ -66,6 +69,8 @@ class Image(models.Model):
         _('Created on'),
         default=timezone.now)
 
+    tags = models.ManyToManyField('images.Tag', verbose_name=_("Tags"), related_name='tags')
+
     class Meta:
         verbose_name = _('Image')
         verbose_name_plural = _('Images')
@@ -120,3 +125,16 @@ class Image(models.Model):
         name = '%s_l%s' % (self.unique_key, self.extension)
         large_thumb = create_thumb(self.image, 700)
         self.thumb_large.save(name, large_thumb)
+
+
+@python_2_unicode_compatible
+class Tag(models.Model):
+    name = models.CharField(max_length=256, unique=True)
+
+    class Meta:
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
