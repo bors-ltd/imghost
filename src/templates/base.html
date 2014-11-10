@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>{% block title %}I.Miximum — Des images qu'elles sont belles{% endblock title %}</title>
+        <title>{% block title %}{{ request.site.name }} — Des images qu'elles sont belles{% endblock title %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="{{ STATIC_URL }}/img/favicon.ico" rel="icon" type="image/x-icon" />
         {% compressed_css "base" %}
@@ -16,7 +16,7 @@
     <nav class="navbar navbar-default" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">Img</a>
+                <a class="navbar-brand" href="/">{{ request.site.name }}</a>
             </div>
         </div>
     </nav>
