@@ -162,7 +162,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.handlers.SysLogHandler',
             'facility': SysLogHandler.LOG_LOCAL2,
-            'address': '/dev/log',
+            'address': '/dev/log' if os.path.exists('/dev/log') else '/var/run/syslog',
             'formatter': 'verbose',
         },
         'mail_admins': {
