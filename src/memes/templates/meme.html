@@ -13,7 +13,7 @@
     </div>
     <div class="col-md-5">
 
-        <form id="meme-form" class="form" method="POST" action="{% url 'meme' image.unique_key %}" enctype="multipart/form-data">
+        <form id="meme-form" class="form" method="POST" action="{% url 'create_meme' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label for="top-tex">Top text</label>
@@ -24,11 +24,13 @@
                 <input class="form-control" type="text" name="bottom_text" id="bottom-text" autocomplete="off">
             </div>
 
-            <input type="hidden" name="source_image" value="{{ image.id }}">
-            <input type="hidden" name="file" value="">
-            <input type="hidden" name="mime" value="{{ mime }}">
-            <input type="submit" value="Upload meme" class="btn btn-block btn-primary">
-            <div id="meme-form-errors" class="form-group has-error"></div>
+            {% if perms.images.add_image %}
+              <input type="hidden" name="source_image" value="{{ image.id }}">
+              <input type="hidden" name="file" value="">
+              <input type="hidden" name="mime" value="{{ mime }}">
+              <input type="submit" value="Upload meme" class="btn btn-block btn-primary">
+              <div id="meme-form-errors" class="form-group has-error"></div>
+            {% endif %}
         </form>
     </div>
 </div>
