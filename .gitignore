@@ -10,6 +10,7 @@ prod_private.py
 # Editor temp files:
 *.swp
 *~
+/.idea
 
 # Sphinx docs:
 build
