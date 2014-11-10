@@ -69,7 +69,7 @@ class Image(models.Model):
         _('Created on'),
         default=timezone.now)
 
-    tags = models.ManyToManyField('images.Tag', verbose_name=_("Tags"), related_name='tags')
+    tags = models.ManyToManyField('images.Tag', null=True, blank=True, verbose_name=_("Tags"), related_name='tags')
 
     class Meta:
         verbose_name = _('Image')
