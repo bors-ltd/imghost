@@ -29,3 +29,11 @@ DATABASES = get_prod_setting('DATABASES')
 SECRET_KEY = get_prod_setting('SECRET_KEY')
 
 ALLOWED_HOSTS = get_prod_setting('ALLOWED_HOSTS')
+
+TIME_ZONE = get_prod_setting('TIME_ZONE')
+
+STATIC_ROOT = get_prod_setting('STATIC_ROOT')
+
+MEDIA_ROOT = get_prod_setting('MEDIA_ROOT')
+
+RAVEN_CONFIG = get_prod_setting('RAVEN_CONFIG')
