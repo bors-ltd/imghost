@@ -13,7 +13,9 @@
             {% endif %}
         </p>
 
-        {% include "tags_snippet.html" with tags=image.tags %}
+        {% if not image.is_meme %}
+            {% include "tags_snippet.html" with tags=image.tags %}
+        {% endif %}
 
         {% if request.user.is_staff and perms.images.change_image %}
           <form class="form" role="form">
