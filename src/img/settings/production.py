@@ -17,7 +17,7 @@ def get_prod_setting(setting):
 
 
 INSTALLED_APPS += (
-    'gunicorn',
+    'raven.contrib.django.raven_compat',
 )
 
 DATABASES = get_prod_setting('DATABASES')
