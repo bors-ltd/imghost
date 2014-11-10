@@ -10,6 +10,9 @@ from django.core.files.images import ImageFile
 def download_image(url):
     r = requests.get(url)
     name = basename(url)
+    # Special case for Twitter, fuuuu
+    if name.endswith(":large"):
+        name = name[:-len(":large")]
     img_temp = StringIO(r.content)
     image = ImageFile(img_temp, name=name)
 
