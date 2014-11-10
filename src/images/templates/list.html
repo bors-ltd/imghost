@@ -9,7 +9,7 @@
         {% if image.thumb_small %}
         <div class="col-xs-6 col-md-3 img">
             <a href="{% url 'detail' image.unique_key %}">
-                <img src="{{ image.thumb_small.url }}">
+                <img src="{{ image.thumb_small.url }}" class="img-thumbnail">
             </a>
         </div>
         {% endif %}
