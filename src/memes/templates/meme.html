@@ -8,7 +8,7 @@
 {% block content %}
 <div class="row">
     <div class="col-md-7">
-        <img id="meme-image" src="{{ image.thumb_large.url }}" style="display: none"/>
+        <img id="meme-image" src="{{ image.thumb_large.url }}" style="display: none">
         <canvas id="meme-canvas"></canvas>
     </div>
     <div class="col-md-5">
@@ -17,17 +17,17 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="top-tex">Top text</label>
-                <input class="form-control" type="text" name="top_text" id="top-text" />
+                <input class="form-control" type="text" name="top_text" id="top-text">
             </div>
             <div class="form-group">
                 <label for="bottom-tex">Bottom text</label>
-                <input class="form-control" type="text" name="bottom_text" id="bottom-text" />
+                <input class="form-control" type="text" name="bottom_text" id="bottom-text">
             </div>
 
-            <input type="hidden" name="source_image" value="{{ image.id }}" />
-            <input type="hidden" name="file" value="" />
-            <input type="hidden" name="mime" value="{{ mime }}" />
-            <input type="submit" value="Upload meme" class="btn btn-block btn-primary" />
+            <input type="hidden" name="source_image" value="{{ image.id }}">
+            <input type="hidden" name="file" value="">
+            <input type="hidden" name="mime" value="{{ mime }}">
+            <input type="submit" value="Upload meme" class="btn btn-block btn-primary">
         </form>
     </div>
 </div>

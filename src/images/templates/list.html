@@ -9,7 +9,7 @@
         {% if image.thumb_small %}
         <div class="col-xs-6 col-md-3 img">
             <a href="{% url 'detail' image.unique_key %}">
-                <img src="{{ image.thumb_small.url }}" />
+                <img src="{{ image.thumb_small.url }}">
             </a>
         </div>
         {% endif %}
@@ -24,7 +24,7 @@
 
             {% include 'form_snippet.html' with form=form %}
 
-            <input class="btn btn-primary btn-block" type="submit" value="{{ _('Send') }}" />
+            <input class="btn btn-primary btn-block" type="submit" value="{{ _('Send') }}">
         </form>
     </div>
     {% else %}

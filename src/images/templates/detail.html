@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-7">
         <figure>
-            <img src="{{ image.image.url }}" />
+            <img src="{{ image.image.url }}">
             {% if image.source %}
             <figcaption>
                 From: <a href="{{ image.source }}">{{ image.source }}</a>
@@ -55,7 +55,7 @@
         {% if meme.thumb_small %}
         <div class="col-xs-6 col-md-2 img">
             <a href="{% url 'detail' meme.unique_key %}">
-                <img src="{{ meme.thumb_small.url }}" />
+                <img src="{{ meme.thumb_small.url }}">
             </a>
         </div>
         {% endif %}
