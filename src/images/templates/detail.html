@@ -4,14 +4,14 @@
 {% block content %}
 <div class="row">
     <div class="col-md-7">
-        <figure>
-            <img src="{{ image.image.url }}">
+        <p>
+            <img src="{{ image.image.url }}" class="img-responsive">
             {% if image.source %}
             <figcaption>
                 From: <a href="{{ image.source }}">{{ image.source }}</a>
             </figcaption>
             {% endif %}
-        </figure>
+        </p>
 
         {% include "tags_snippet.html" with tags=image.tags %}
 
