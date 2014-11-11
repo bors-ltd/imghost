@@ -14,7 +14,7 @@
         </p>
 
         {% if not image.is_meme %}
-            {% include "tags_snippet.html" with tags=image.tags %}
+            {% include "snippets/tags.html" with tags=image.tags %}
         {% endif %}
 
         {% if perms.images.manage_tags %}
