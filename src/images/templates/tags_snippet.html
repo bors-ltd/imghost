@@ -1,3 +1,4 @@
+{% load tags %}
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Tags</h3>
@@ -5,7 +6,7 @@
     <div class="panel-body">
         {% for tag in tags.all %}
             <a href="{% url 'image_list' %}?tags={{ tag.name }}">
-                <span class="label label-default">{{ tag.name }}</span>&nbsp;
+                <span class="{% next_label %}">{{ tag.name }}</span>
             </a>
         {% endfor %}
     </div>
