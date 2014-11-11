@@ -24,6 +24,12 @@ INSTALLED_APPS += (
     'raven.contrib.django.raven_compat',
 )
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_REAL_SCHEME', 'https')
+
+SESSION_COOKIE_NAME = 's'
+
+SESSION_COOKIE_SECURE = True
+
 DATABASES = get_prod_setting('DATABASES')
 
 SECRET_KEY = get_prod_setting('SECRET_KEY')
