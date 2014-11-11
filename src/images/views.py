@@ -1,10 +1,15 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, print_function, unicode_literals
+
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404
 from django.core.exceptions import PermissionDenied
+
 from annoying.decorators import render_to
 
-from images.forms import UploadForm
+from images import forms
+from images import models
 from images.utils import download_image
-from images.models import Image, Tag
 
 
 @render_to('upload.html')
@@ -13,7 +18,7 @@ def upload(request):
     if not request.user.is_authenticated():
         raise PermissionDenied('Sorry, only the keymaster can do this.')
 
-    form = UploadForm(request.POST or None, request.FILES or None)
+    form = forms.UploadForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
 
@@ -21,7 +26,7 @@ def upload(request):
         file = form.cleaned_data['file']
         image_file = file if file else download_image(url)
 
-        image = Image.objects.create(
+        image = models.Image.objects.create(
             image=image_file,
             source=url or '',
         )
@@ -35,15 +40,15 @@ def upload(request):
 
 @render_to('list.html')
 def list(request):
-    images = Image.objects.filter(is_meme=False)
+    images = models.Image.objects.filter(is_meme=False)
 
-    tags = request.GET.getlist('tags')
-    if tags:
-        images = images.filter(tags__name__in=tags)
+    tag_list = request.GET.getlist('tags')
+    if tag_list:
+        images = images.filter(tags__name__in=tag_list)
 
-    tags = Tag.objects.all()
+    tags = models.Tag.objects.all()
 
-    form = UploadForm()
+    form = forms.UploadForm()
 
     return {
         'images': images,
@@ -54,16 +59,25 @@ def list(request):
 
 @render_to('detail.html')
 def detail(request, unique_key):
-    image = get_object_or_404(Image, unique_key=unique_key)
+    image = get_object_or_404(models.Image, unique_key=unique_key)
+
+    tags_form = forms.TagsForm(data=request.POST or None, instance=image)
 
     if image.is_meme:
         base_key = image.source_image.unique_key
     else:
         base_key = image.unique_key
 
+    if request.method == 'POST' and request.user.has_perm('images.manage_tags'):
+        if tags_form.is_valid():
+            tags_form.save()
+            return HttpResponseRedirect(image.get_absolute_url())
+
     return {
         'image': image,
+        'tags_form': tags_form,
+        # For memes
         'base_key': base_key,
         'related_memes': image.related_memes.all(),
-        'has_memes': image.related_memes.all().count() > 0,
+        'has_memes': len(image.related_memes.all()) > 0,
     }

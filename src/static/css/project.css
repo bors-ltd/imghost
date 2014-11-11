@@ -16,3 +16,7 @@ input[type=file].form-control {
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
 }
+.label {
+    display: inline-block;
+    margin-right: 0.2em;
+}

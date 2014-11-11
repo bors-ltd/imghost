@@ -17,6 +17,16 @@
             {% include "tags_snippet.html" with tags=image.tags %}
         {% endif %}
 
+        {% if perms.images.manage_tags %}
+          <form action="" method="POST" class="form" role="form">
+            {% csrf_token %}
+            {% include "snippets/form.html" with form=tags_form %}
+            <div class="form-group">
+              <button type="submit" class="btn btn-danger">{{ _("Update tags") }}</button>
+            </div>
+          </form>
+        {% endif %}
+
         {% if request.user.is_staff and perms.images.change_image %}
           <form class="form" role="form">
             <div class="form-group">

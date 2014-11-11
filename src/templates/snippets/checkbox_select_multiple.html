@@ -1,0 +1,7 @@
+<div class="btn-group" data-toggle="buttons" {% for name, value in attrs.items %}{{ name }}="{{ value }}"{% endfor %}>
+  {% for pk, label in choices %}
+  <label class="btn btn-default {% if pk in value %}active{% endif %}">
+    <input type="checkbox" name="{{ name }}" value="{{ pk }}" autocomplete="off" {% if pk in value %}checked{% endif %}> {{ label }}
+  </label>
+  {% endfor %}
+</div>
