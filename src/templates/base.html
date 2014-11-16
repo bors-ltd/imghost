@@ -1,41 +1,41 @@
 {% load compressed %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>{% block title %}{{ request.site.name }} — Des images qu'elles sont belles{% endblock title %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="{{ STATIC_URL }}/img/favicon.ico" rel="icon" type="image/x-icon">
-        {% compressed_css "base" %}
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{{ request.site.name }} — Des images qu'elles sont belles{% endblock title %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="{{ STATIC_URL }}/img/favicon.ico" rel="icon" type="image/x-icon">
+  {% compressed_css "base" %}
 
-        {% block extra_css %}{% endblock extra_css %}
-    </head>
+  {% block extra_css %}{% endblock extra_css %}
+</head>
 
-    <body class="{% block custombodyclass %}{% endblock %}">
+<body class="{% block custombodyclass %}{% endblock %}">
 
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">{{ request.site.name }}</a>
-            </div>
-        </div>
-    </nav>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">{{ request.site.name }}</a>
+    </div>
+  </div>
+</nav>
 
-        <div class="container">
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li id="message_{{ forloop.counter }}"
-                            {% if message.tags %} class="alert alert-{% if message.tags == "error" %}danger{% else %}{{ message.tags }}{% endif %}"{% endif %}>
-                            {{ message }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% block content %}{% endblock content %}
-        </div>
+<div class="container">
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li id="message_{{ forloop.counter }}"
+            {% if message.tags %} class="alert alert-{% if message.tags == "error" %}danger{% else %}{{ message.tags }}{% endif %}"{% endif %}>
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% block content %}{% endblock content %}
+</div>
 
-        {% compressed_js "base" %}
-        {% block extra_js %}{% endblock extra_js %}
-    </body>
+{% compressed_js "base" %}
+{% block extra_js %}{% endblock extra_js %}
+</body>
 </html>
