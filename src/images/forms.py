@@ -43,7 +43,7 @@ class CheckboxSelectMultiple(forms.CheckboxSelectMultiple):
 
 class TagsForm(forms.ModelForm):
     new_tags = forms.CharField(
-        label=_(u"New tags"), widget=forms.Textarea({'cols': '40', 'rows': '1'}))
+        label=_(u"New tags"), widget=forms.Textarea({'rows': '1', 'class': "form-control"}))
 
     class Meta:
         model = models.Image
