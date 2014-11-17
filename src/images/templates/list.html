@@ -10,7 +10,7 @@
           {% if image.thumb_small %}
             <div class="col-xs-6 col-md-3 img">
               <a href="{% url 'detail' image.unique_key %}">
-                <img src="{% static "travaux150.gif" %}" data-src="{{ image.thumb_small.url }}" class="lazy img-thumbnail" width="150" height="150">
+                <img src="{% static "throbber.gif" %}" data-src="{{ image.thumb_small.url }}" class="lazy img-thumbnail" width="150" height="150">
               </a>
             </div>
           {% endif %}
