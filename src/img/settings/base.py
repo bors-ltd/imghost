@@ -42,6 +42,7 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'images',
     'memes',
+    'img',
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

@@ -1,4 +1,4 @@
-{% load compressed i18n %}
+{% load compressed i18n img %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +33,7 @@
           {% endif %}
           <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
         {% else %}
-          <li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>
+          <li><a href="{% secure_url 'login' %}">{% trans "Login" %}</a></li>
         {% endif %}
       </ul>
     </div>
