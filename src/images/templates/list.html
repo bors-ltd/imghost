@@ -22,7 +22,7 @@
         <form method="POST" action="{% url 'upload' %}" enctype="multipart/form-data" class="form" role="form">
             {% csrf_token %}
 
-            {% include 'snippets/form.html' with form=form %}
+            {% include 'snippets/form.html' %}
 
             <div class="form-group">
               <button type="submit" class="btn btn-danger btn-block">{{ _("Send") }}</button>

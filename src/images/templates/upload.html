@@ -4,7 +4,7 @@
 <form method="POST" action="" enctype="multipart/form-data" role="form">
     {% csrf_token %}
 
-    {% include 'snippets/form.html' with form=form %}
+    {% include 'snippets/form.html' %}
 
     <button type="submit" class="btn btn-danger">{{ _("Send") }}</button>
 </form>

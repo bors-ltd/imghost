@@ -27,8 +27,13 @@
 
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
       <ul class="nav navbar-nav">
-        {% if perms.images.add_image %}
-          <li><a href="{% url 'upload' %}">{% trans "Upload" %}</a></li>
+        {% if request.user.is_authenticated %}
+          {% if perms.images.add_image %}
+            <li><a href="{% url 'upload' %}">{% trans "Upload" %}</a></li>
+          {% endif %}
+          <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
+        {% else %}
+          <li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>
         {% endif %}
       </ul>
     </div>
