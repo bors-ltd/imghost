@@ -1,6 +1,7 @@
 import os
 from sys import path
 from os.path import basename
+from django.core.urlresolvers import reverse_lazy
 from unipath import Path
 from logging.handlers import SysLogHandler
 
@@ -196,4 +197,4 @@ LOGGING = {
     }
 }
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = reverse_lazy('image_list')
