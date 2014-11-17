@@ -28,7 +28,7 @@ def show_tags(tags=None):
     if tags is None:
         tags = images_models.Tag.objects.annotate(count=models.Count('tags'))
     else:
-        tags = tags.annotate(count=models.Count('tags'))
+        tags = tags.all()
 
     annotated_tags = []
     for tag in tags:
