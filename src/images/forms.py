@@ -4,6 +4,7 @@ import itertools
 
 from django import forms
 from django.template.loader import render_to_string
+from django.utils.translation import ugettext_lazy as _
 
 from images import models
 
@@ -41,6 +42,8 @@ class CheckboxSelectMultiple(forms.CheckboxSelectMultiple):
 
 
 class TagsForm(forms.ModelForm):
+    new_tags = forms.CharField(
+        label=_(u"New tags"), widget=forms.Textarea({'cols': '40', 'rows': '1'}))
 
     class Meta:
         model = models.Image
@@ -49,6 +52,11 @@ class TagsForm(forms.ModelForm):
             'tags': CheckboxSelectMultiple,
         }
 
-    def clean(self):
-        cleaned_data = super(TagsForm, self).clean()
-        return cleaned_data
+    def clean_new_tags(self):
+        new_tags = self.cleaned_data['new_tags']
+        return [new_tag.strip() for new_tag in new_tags.splitlines()]
+
+    def save(self, *args, **kwargs):
+        instance = super(TagsForm, self).save(*args, **kwargs)
+        for new_tag in self.cleaned_data['new_tags']:
+            instance.tags.add(models.Tag.objects.get_or_create(name=new_tag)[0])
