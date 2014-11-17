@@ -27,7 +27,9 @@
 
     <div class="collapse navbar-collapse" id="navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="{% url 'upload' %}">{% trans "Upload" %}</a></li>
+        {% if perms.images.add_image %}
+          <li><a href="{% url 'upload' %}">{% trans "Upload" %}</a></li>
+        {% endif %}
       </ul>
     </div>
 
