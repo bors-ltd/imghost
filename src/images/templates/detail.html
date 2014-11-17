@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load images %}
+{% load images tags %}
 
 {% block content %}
 <div class="row">
@@ -23,7 +23,7 @@
               </div>
             </form>
           {% else %}
-            {% include "snippets/tags.html" with tags=image.tags %}
+            {% show_tags image.tags %}
           {% endif %}
         {% endif %}
 

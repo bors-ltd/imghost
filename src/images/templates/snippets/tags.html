@@ -1,13 +1,12 @@
-{% load tags %}
 <div class="panel panel-danger">
-    <div class="panel-heading">
-        <h3 class="panel-title">Tags</h3>
-    </div>
-    <div class="panel-body">
-        {% for tag in tags.all %}
-            <a href="{% url 'image_list' %}?tags={{ tag.name }}">
-                <span class="{% next_label %}">{{ tag.name }}</span>
-            </a>
-        {% endfor %}
-    </div>
+  <div class="panel-heading">
+    <h3 class="panel-title">Tags</h3>
+  </div>
+  <div class="panel-body">
+    {% for tag in tags %}
+      <a href="{% url 'image_list' %}?tags={{ tag.name }}">
+        <span class="{{ tag.css_class }}" style="font-size: {{ tag.font_size }}">{{ tag.name }}</span>
+      </a>
+    {% endfor %}
+  </div>
 </div>
