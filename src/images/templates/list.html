@@ -10,7 +10,7 @@
         {% if image.thumb_small %}
         <div class="col-xs-6 col-md-3 img">
             <a href="{% url 'detail' image.unique_key %}">
-                <img src="{{ image.thumb_small.url }}" class="img-thumbnail">
+                <img src="" data-src="{{ image.thumb_small.url }}" class="lazy img-thumbnail">
             </a>
         </div>
         {% endif %}
@@ -35,4 +35,12 @@
 
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  jQuery(document).ready(function() {
+    jQuery("img.lazy").lazy();
+  });
+</script>
 {% endblock %}

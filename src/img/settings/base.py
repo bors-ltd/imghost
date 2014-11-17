@@ -131,6 +131,7 @@ PIPELINE_JS = {
     'base': {
         'source_filenames': (
             'js/jquery.js',
+            'js/jquery.lazy.js',
             'js/bootstrap.js',
         ),
         'output_filename': 'js/base.js',
