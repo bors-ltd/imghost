@@ -32,7 +32,7 @@ def show_tags(tags=None):
 
     annotated_tags = []
     for tag in tags:
-        tag.font_size = "%d%%" % (75 + 20 * getattr(tag, 'count', 0))
+        tag.font_size = "%d%%" % (75 + 10 * getattr(tag, 'count', 0))
         tag.css_class = label_sequence.next()
         annotated_tags.append(tag)
 
