@@ -31,9 +31,9 @@
           {% if perms.images.add_image %}
             <li><a href="{% url 'upload' %}">{% trans "Upload" %}</a></li>
           {% endif %}
-          <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
+          <li><a href="{% url 'logout' %}?next={{ request.path }}">{% trans "Logout" %}</a></li>
         {% else %}
-          <li><a href="{% secure_url 'login' %}">{% trans "Login" %}</a></li>
+          <li><a href="{% secure_url 'login' %}?next={{ request.path }}">{% trans "Login" %}</a></li>
         {% endif %}
       </ul>
     </div>

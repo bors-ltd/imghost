@@ -3,7 +3,7 @@
 
 {% block content %}
   <h1>{% trans "Login" context "heading" %}</h1>
-  <form action="{% secure_url 'login' %}" method="POST" class="form" role="form">
+  <form action="{% secure_url 'login' %}?next={{ next }}" method="POST" class="form" role="form">
     {% csrf_token %}
     {% include "snippets/form.html" %}
     <button type="submit" class="btn btn-danger">{% trans "Login" context "button" %}</button>
