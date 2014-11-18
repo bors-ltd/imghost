@@ -15,7 +15,7 @@ from images.utils import download_image
 @render_to('upload.html')
 def upload(request):
 
-    if not user.is_authenticated():
+    if not request.user.is_authenticated():
         raise PermissionDenied('Sorry, only the keymaster can do this.')
 
     form = forms.UploadForm(request.POST or None, request.FILES or None)
