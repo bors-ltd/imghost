@@ -27,7 +27,7 @@ def meme(request, unique_key):
 
 
 @require_POST
-@permission_required('images.add_meme', raise_exception=True)
+@permission_required('images.add_image', raise_exception=True)
 @render_to("meme.html")
 def create_meme(request):
     form = MemeUploadForm(data=request.POST)

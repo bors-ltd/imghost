@@ -5,12 +5,10 @@ from south.v2 import DataMigration
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        content_type = orm['contenttypes.ContentType'].objects.get(model="image", app_label="images", name="Image")
-        orm['auth.Permission'].objects.create(codename="manage_tags", name="Can manage Tags for an image", content_type=content_type)
+        pass
 
     def backwards(self, orm):
-        content_type = orm['contenttypes.ContentType'].objects.get(model="image", app_label="images", name="Image")
-        orm['auth.Permission'].objects.filter(codename="manage_tags", content_type=content_type)
+        pass
 
     models = {
         u'auth.group': {

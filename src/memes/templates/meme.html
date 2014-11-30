@@ -24,7 +24,7 @@
                 <input class="form-control" type="text" name="bottom_text" id="bottom-text" autocomplete="off">
             </div>
 
-            {% if perms.images.add_meme %}
+            {% if perms.images.add_image %}
               <input type="hidden" name="source_image" value="{{ image.id }}">
               <input type="hidden" name="file" value="">
               <input type="hidden" name="mime" value="{{ mime }}">
