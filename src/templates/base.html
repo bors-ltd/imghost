@@ -34,6 +34,13 @@
           {% if perms.images.change_image %}
             <li><a href="{% url 'not_listed' %}">{% trans "Images not listed" %}</a></li>
             <li><a href="{% url 'not_tagged' %}">{% trans "Images not tagged" %}</a></li>
+            <li>
+              <a href="{% url 'inappropriate' %}">{% trans "Images inappropriate" %}
+                {% if inappropriate_counter %}
+                  <span class="label label-danger">{{ inappropriate_counter }}</span>
+                {% endif %}
+              </a>
+            </li>
           {% endif %}
           <li><a href="{% url 'logout' %}?next={{ request.path }}">{% trans "Logout" %}</a></li>
         {% else %}

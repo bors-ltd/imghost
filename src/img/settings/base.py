@@ -113,6 +113,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
+    'images.context_processors.inappropriate_counter',
 )
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'

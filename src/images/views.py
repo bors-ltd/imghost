@@ -2,9 +2,12 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from django.core.exceptions import PermissionDenied
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404
+from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.http import require_POST
 
 from annoying.decorators import render_to
 
@@ -22,7 +25,6 @@ def upload(request):
     form = forms.UploadForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
-
         url = form.cleaned_data['url']
         file = form.cleaned_data['file']
         image_file = file if file else download_image(url)
@@ -33,6 +35,9 @@ def upload(request):
         )
 
         return redirect(image.get_absolute_url())
+
+    else:
+        messages.error(request, _("Please check the errors below."))
 
     return {
         'form': form,
@@ -74,6 +79,14 @@ def not_tagged(request):
     return {'images': images}
 
 
+@permission_required('images.delete_image')
+@render_to('list.html')
+def inappropriate(request):
+    images = models.Image.objects.filter(inappropriate=True)
+
+    return {'images': images}
+
+
 @render_to('detail.html')
 def detail(request, unique_key):
     image = get_object_or_404(models.Image, unique_key=unique_key)
@@ -85,11 +98,18 @@ def detail(request, unique_key):
     else:
         base_key = image.unique_key
 
-    if request.method == 'POST' and form.is_valid() and request.user.has_perm('images.change_image'):
-        form.save()
-        return HttpResponseRedirect(image.get_absolute_url())
+    if request.method == 'POST' and request.user.has_perm('images.change_image'):
+        if form.is_valid() :
+            form.save()
+            messages.success(request, _("Image updated successfully."))
+
+            return HttpResponseRedirect(image.get_absolute_url())
+
+        else:
+            messages.error(request, _("Please check the errors below."))
 
     return {
+        'unique_key': unique_key,
         'image': image,
         'form': form,
         # For memes
@@ -97,3 +117,16 @@ def detail(request, unique_key):
         'related_memes': image.related_memes.all(),
         'has_memes': len(image.related_memes.all()) > 0,
     }
+
+
+@require_POST
+def flag_inappropriate(request, unique_key):
+    image = get_object_or_404(models.Image, unique_key=unique_key)
+    image.inappropriate = True
+    image.save(update_fields=['inappropriate'])
+
+    messages.success(
+      request, _("This image was successfully flagged as inappropriate. We will soon investigate further.")
+    )
+
+    return HttpResponseRedirect(image.get_absolute_url())

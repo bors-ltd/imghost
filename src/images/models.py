@@ -71,6 +71,8 @@ class Image(models.Model):
 
     listed = models.BooleanField(default=True, verbose_name=_("Listed"))
 
+    inappropriate = models.BooleanField(default=False, verbose_name=_("Inappropriate"))
+
     tags = models.ManyToManyField('images.Tag', null=True, blank=True, verbose_name=_("Tags"), related_name='tags')
 
     class Meta:
