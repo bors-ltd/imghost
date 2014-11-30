@@ -26,14 +26,6 @@
             {% show_tags image.tags %}
           {% endif %}
         {% endif %}
-
-        {% if user.is_staff and perms.images.change_image %}
-          <form class="form" role="form">
-            <div class="form-group">
-              <a href="{% url 'admin:images_image_change' image.pk %}" class="btn btn-danger">Admin</a>
-            </div>
-          </form>
-        {% endif %}
     </div>
 
     <div class="col-md-5">
@@ -56,11 +48,21 @@
     :class: full</pre>
             </dd>
         </dl>
-        <a href="{% url 'meme' base_key %}">Create a meme</a>
 
-        {% if image.is_meme %}
-            —
-            <a href="{% url 'detail' base_key %}">Similar memes</a>
+        <p>
+            <a href="{% url 'meme' base_key %}">Create a meme</a>
+            {% if image.is_meme %}
+              —
+              <a href="{% url 'detail' base_key %}">Similar memes</a>
+            {% endif %}
+        </p>
+
+        {% if user.is_staff and perms.images.change_image %}
+          <form class="form" role="form">
+            <div class="form-group">
+              <a href="{% url 'admin:images_image_change' image.pk %}" class="btn btn-danger">Admin</a>
+            </div>
+          </form>
         {% endif %}
     </div>
 </div>
