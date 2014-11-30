@@ -61,21 +61,20 @@ def list(request):
 def detail(request, unique_key):
     image = get_object_or_404(models.Image, unique_key=unique_key)
 
-    tags_form = forms.TagsForm(data=request.POST or None, instance=image)
+    form = forms.ImageForm(data=request.POST or None, instance=image)
 
     if image.is_meme:
         base_key = image.source_image.unique_key
     else:
         base_key = image.unique_key
 
-    if request.method == 'POST' and request.user.has_perm('images.manage_tags'):
-        if tags_form.is_valid():
-            tags_form.save()
-            return HttpResponseRedirect(image.get_absolute_url())
+    if request.method == 'POST' and form.is_valid() and request.user.has_perm('images.change_image'):
+        form.save()
+        return HttpResponseRedirect(image.get_absolute_url())
 
     return {
         'image': image,
-        'tags_form': tags_form,
+        'form': form,
         # For memes
         'base_key': base_key,
         'related_memes': image.related_memes.all(),

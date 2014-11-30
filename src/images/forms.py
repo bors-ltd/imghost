@@ -41,13 +41,13 @@ class CheckboxSelectMultiple(forms.CheckboxSelectMultiple):
         })
 
 
-class TagsForm(forms.ModelForm):
+class ImageForm(forms.ModelForm):
     new_tags = forms.CharField(
         label=_(u"New tags"), required=False, widget=forms.Textarea({'rows': '1', 'class': "form-control"}))
 
     class Meta:
         model = models.Image
-        fields = ('tags',)
+        fields = ('tags', 'new_tags', 'listed')
         widgets = {
             'tags': CheckboxSelectMultiple,
         }
@@ -57,6 +57,6 @@ class TagsForm(forms.ModelForm):
         return [new_tag.strip() for new_tag in new_tags.splitlines()]
 
     def save(self, *args, **kwargs):
-        instance = super(TagsForm, self).save(*args, **kwargs)
+        instance = super(ImageForm, self).save(*args, **kwargs)
         for new_tag in self.cleaned_data['new_tags']:
             instance.tags.add(models.Tag.objects.get_or_create(name=new_tag)[0])

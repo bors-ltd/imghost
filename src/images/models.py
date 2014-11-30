@@ -69,6 +69,8 @@ class Image(models.Model):
         _('Created on'),
         default=timezone.now)
 
+    listed = models.BooleanField(default=True, verbose_name=_("Listed"))
+
     tags = models.ManyToManyField('images.Tag', null=True, blank=True, verbose_name=_("Tags"), related_name='tags')
 
     class Meta:
