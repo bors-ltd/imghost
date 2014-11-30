@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import permission_required
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404
-from django.core.exceptions import PermissionDenied
 
 from annoying.decorators import render_to
 
@@ -40,7 +41,7 @@ def upload(request):
 
 @render_to('list.html')
 def list(request):
-    images = models.Image.objects.filter(is_meme=False)
+    images = models.Image.objects.filter(listed=True, is_meme=False)
 
     tag_list = request.GET.getlist('tags')
     if tag_list:
@@ -55,6 +56,22 @@ def list(request):
         'tags': tags,
         'form': form,
     }
+
+
+@permission_required('images.change_image')
+@render_to('list.html')
+def not_listed(request):
+    images = models.Image.objects.filter(listed=False, is_meme=False)
+
+    return {'images': images}
+
+
+@permission_required('images.change_image')
+@render_to('list.html')
+def not_tagged(request):
+    images = models.Image.objects.filter(tags__isnull=True, is_meme=False)
+
+    return {'images': images}
 
 
 @render_to('detail.html')

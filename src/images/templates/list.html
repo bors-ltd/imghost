@@ -19,7 +19,7 @@
     </div>
 
     <div class="col-md-4">
-      {% if perms.images.add_image %}
+      {% if form and perms.images.add_image %}
         <form method="POST" action="{% url 'upload' %}" enctype="multipart/form-data" class="form" role="form">
           {% csrf_token %}
 
@@ -31,8 +31,9 @@
         </form>
       {% endif %}
 
-      {% show_tags %}
-
+      {% if tags %}
+        {% show_tags %}
+      {% endif %}
     </div>
   </div>
 {% endblock %}
