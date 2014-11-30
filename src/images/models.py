@@ -79,7 +79,6 @@ class Image(models.Model):
         ordering = ('-created_on',)
         permissions = (
             ('add_meme', "Can add Meme"),
-            ('manage_tags', "Can manage Tags for an image"),
         )
 
     def __unicode__(self):
