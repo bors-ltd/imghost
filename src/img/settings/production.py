@@ -43,3 +43,5 @@ STATIC_ROOT = get_prod_setting('STATIC_ROOT')
 MEDIA_ROOT = get_prod_setting('MEDIA_ROOT')
 
 RAVEN_CONFIG = get_prod_setting('RAVEN_CONFIG')
+
+LEGAL_MENTIONS = get_prod_setting('LEGAL_MENTIONS')

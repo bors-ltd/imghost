@@ -39,6 +39,7 @@
         {% else %}
           <li><a href="{% secure_url 'login' %}?next={{ request.path }}">{% trans "Login" %}</a></li>
         {% endif %}
+        <li><a href="{% url 'legal_mentions' %}">{% trans "Legal mentions" %}</a></li>
       </ul>
     </div>
 
