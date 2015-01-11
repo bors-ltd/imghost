@@ -48,6 +48,9 @@
         {% endif %}
         <li><a href="{% url 'legal_mentions' %}">{% trans "Legal mentions" %}</a></li>
       </ul>
+      <form action="{% url 'image_list' %}" method="GET" class="navbar-form navbar-right">
+        <input type="text" name="q" class="form-control" placeholder="Search…">
+      </form>
     </div>
 
   </div>

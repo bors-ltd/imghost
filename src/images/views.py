@@ -52,14 +52,14 @@ def image_list(request):
     if tag_list:
         images = images.filter(tags__name__in=tag_list)
 
-    tags = models.Tag.objects.all()
-
-    form = forms.UploadForm()
+    search_query = request.GET.get('q', "").strip()
+    if search_query:
+        images = images.filter(tags__name__icontains=search_query)
 
     return {
         'images': images,
-        'tags': tags,
-        'form': form,
+        'tags': models.Tag.objects.all(),
+        'form': forms.UploadForm(),
     }
 
 
