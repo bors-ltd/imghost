@@ -16,28 +16,26 @@ from images import models
 from images.utils import download_image
 
 
+@permission_required('images.add_image')
 @render_to('upload.html')
 def upload(request):
-
-    if not request.user.is_authenticated():
-        raise PermissionDenied('Sorry, only the keymaster can do this.')
-
     form = forms.UploadForm(request.POST or None, request.FILES or None)
 
-    if form.is_valid():
-        url = form.cleaned_data['url']
-        file = form.cleaned_data['file']
-        image_file = file if file else download_image(url)
+    if request.method == 'POST':
+        if form.is_valid():
+            url = form.cleaned_data['url']
+            file = form.cleaned_data['file']
+            image_file = file if file else download_image(url)
 
-        image = models.Image.objects.create(
-            image=image_file,
-            source=url or '',
-        )
+            image = models.Image.objects.create(
+                image=image_file,
+                source=url or '',
+            )
 
-        return redirect(image.get_absolute_url())
+            return redirect(image.get_absolute_url())
 
-    else:
-        messages.error(request, _("Please check the errors below."))
+        else:
+            messages.error(request, _("Please check the errors below."))
 
     return {
         'form': form,
