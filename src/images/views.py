@@ -45,7 +45,7 @@ def upload(request):
 
 
 @render_to('list.html')
-def list(request):
+def image_list(request):
     images = models.Image.objects.filter(listed=True, is_meme=False)
 
     tag_list = request.GET.getlist('tags')
