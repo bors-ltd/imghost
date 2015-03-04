@@ -24,6 +24,7 @@ def download_image(url):
 
 def create_thumb(image, size):
     _basename, ext = splitext(image.name)
+    ext = ext.lower()
     ext = ".jpeg" if ext == ".jpg" else ext
     ext = ext[1:]
 
