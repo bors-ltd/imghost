@@ -73,7 +73,7 @@ def not_listed(request):
 @permission_required('images.change_image')
 @render_to('list.html')
 def not_tagged(request):
-    images = models.Image.objects.filter(tags__isnull=True, is_meme=False)
+    images = models.Image.objects.filter(listed=True, tags__isnull=True, is_meme=False)
 
     return {'images': images}
 
