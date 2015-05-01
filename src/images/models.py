@@ -69,7 +69,7 @@ class Image(models.Model):
         _('Created on'),
         default=timezone.now)
 
-    listed = models.BooleanField(default=True, verbose_name=_("Listed"))
+    listed = models.BooleanField(default=False, verbose_name=_("Listed"))
 
     inappropriate = models.BooleanField(default=False, verbose_name=_("Inappropriate"))
 

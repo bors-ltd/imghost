@@ -30,6 +30,7 @@ def upload(request):
             image = models.Image.objects.create(
                 image=image_file,
                 source=url or '',
+                listed=False,
             )
 
             return redirect(image.get_absolute_url())
