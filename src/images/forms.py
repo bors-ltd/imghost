@@ -53,8 +53,12 @@ class ImageForm(forms.ModelForm):
         }
 
     def clean_new_tags(self):
-        new_tags = self.cleaned_data['new_tags']
-        return [new_tag.strip() for new_tag in new_tags.splitlines()]
+        new_tags = set()
+        for new_tag in self.cleaned_data['new_tags'].splitlines():
+            new_tag = new_tag.strip()
+            if new_tag:
+                new_tags.add(new_tag)
+        return new_tags
 
     def save(self, *args, **kwargs):
         instance = super(ImageForm, self).save(*args, **kwargs)

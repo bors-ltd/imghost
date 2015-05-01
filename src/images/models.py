@@ -139,8 +139,3 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        # Names are all lowercase to limit duplicates
-        self.name = self.name.lower()
-        return super(Tag, self).save(*args, **kwargs)
