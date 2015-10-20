@@ -1,8 +1,10 @@
+from io import BytesIO
 from os.path import splitext
-import requests
-from cStringIO import StringIO
 from os.path import basename
+
 from PIL import Image, ImageOps
+
+import requests
 
 from django.core.files.images import ImageFile
 
@@ -13,7 +15,7 @@ def download_image(url):
     # Special case for Twitter, fuuuu
     if name.endswith(":large"):
         name = name[:-len(":large")]
-    img_temp = StringIO(r.content)
+    img_temp = BytesIO(r.content)
     image = ImageFile(img_temp, name=name)
 
     return image
@@ -31,6 +33,6 @@ def create_thumb(image, size):
     else:
         thumbnail.thumbnail((size, size), Image.ANTIALIAS)
 
-    tmp_file = StringIO()
+    tmp_file = BytesIO()
     thumbnail.save(tmp_file, ext)
     return ImageFile(tmp_file)

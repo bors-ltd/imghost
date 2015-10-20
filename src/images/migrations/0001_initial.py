@@ -1,48 +1,55 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import migrations, models
+import django.utils.timezone
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Image'
-        db.create_table(u'images_image', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('unique_key', self.gf('django.db.models.fields.CharField')(unique=True, max_length=20, blank=True)),
-            ('image', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
-            ('thumb_small', self.gf('django.db.models.fields.files.ImageField')(max_length=100, blank=True)),
-            ('thumb_large', self.gf('django.db.models.fields.files.ImageField')(max_length=100, blank=True)),
-            ('extension', self.gf('django.db.models.fields.CharField')(default='', max_length=5, blank=True)),
-            ('height', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, blank=True)),
-            ('width', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, blank=True)),
-            ('source', self.gf('django.db.models.fields.URLField')(max_length=2048, null=True, blank=True)),
-            ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-        ))
-        db.send_create_signal(u'images', ['Image'])
+    dependencies = [
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'Image'
-        db.delete_table(u'images_image')
-
-
-    models = {
-        u'images.image': {
-            'Meta': {'ordering': "('-created_on',)", 'object_name': 'Image'},
-            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'extension': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '5', 'blank': 'True'}),
-            'height': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
-            'source': ('django.db.models.fields.URLField', [], {'max_length': '2048', 'null': 'True', 'blank': 'True'}),
-            'thumb_large': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
-            'thumb_small': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
-            'unique_key': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20', 'blank': 'True'}),
-            'width': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0', 'blank': 'True'})
-        }
-    }
-
-    complete_apps = ['images']
+    operations = [
+        migrations.CreateModel(
+            name='Image',
+            fields=[
+                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('unique_key', models.CharField(max_length=20, unique=True, blank=True, verbose_name='Unique key')),
+                ('image', models.ImageField(height_field='height', width_field='width', upload_to='i/%Y/%m/', verbose_name='Image file')),
+                ('thumb_small', models.ImageField(upload_to='i/%Y/%m/', blank=True, verbose_name='Small thumbnail')),
+                ('thumb_large', models.ImageField(upload_to='i/%Y/%m/', blank=True, verbose_name='Large thumbnail')),
+                ('extension', models.CharField(max_length=5, default='', blank=True, verbose_name='Extension')),
+                ('height', models.PositiveIntegerField(default=0, blank=True, verbose_name='Height')),
+                ('width', models.PositiveIntegerField(default=0, blank=True, verbose_name='Width')),
+                ('source', models.URLField(max_length=2048, null=True, blank=True, verbose_name='Source')),
+                ('is_meme', models.BooleanField(default=False, verbose_name='Is meme')),
+                ('created_on', models.DateTimeField(default=django.utils.timezone.now, verbose_name='Created on')),
+                ('listed', models.BooleanField(default=False, verbose_name='Listed')),
+                ('inappropriate', models.BooleanField(default=False, verbose_name='Inappropriate')),
+                ('source_image', models.ForeignKey(to='images.Image', null=True, related_name='related_memes', blank=True, verbose_name='Source image')),
+            ],
+            options={
+                'ordering': ('-created_on',),
+                'verbose_name_plural': 'Images',
+                'verbose_name': 'Image',
+            },
+        ),
+        migrations.CreateModel(
+            name='Tag',
+            fields=[
+                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=256, unique=True)),
+            ],
+            options={
+                'ordering': ('name',),
+                'verbose_name_plural': 'Tags',
+                'verbose_name': 'Tag',
+            },
+        ),
+        migrations.AddField(
+            model_name='image',
+            name='tags',
+            field=models.ManyToManyField(to='images.Tag', related_name='tags', blank=True, verbose_name='Tags'),
+        ),
+    ]

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
-from cStringIO import StringIO
+from io import BytesIO
 import re
 
 from django import forms
@@ -21,7 +21,7 @@ class MemeUploadForm(forms.Form):
         data = self.cleaned_data['file']
         matches = re.search(r'base64,(.*)', data)
         imgstr = matches.group(1)
-        imgcontent = StringIO(imgstr.decode('base64'))
+        imgcontent = BytesIO(imgstr.decode('base64'))
         img = ImageFile(imgcontent, name='temp.png')
 
         return img

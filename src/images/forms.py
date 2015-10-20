@@ -20,7 +20,7 @@ class UploadForm(forms.Form):
     def clean(self):
         data = super(UploadForm, self).clean()
 
-        values = data.values() + self.files.values()
+        values = list(itertools.chain(data.values(), self.files.values()))
         if not any(values) or all(values):
             raise forms.ValidationError('Upload a file or give a url')
 

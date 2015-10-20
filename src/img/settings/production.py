@@ -1,8 +1,8 @@
-from base import *  # noqa
+from .base import *  # noqa
 from django.core.exceptions import ImproperlyConfigured
 
 try:
-    import prod_private
+    from . import prod_private
 except ImportError:
     raise ImproperlyConfigured("Create a prod_private.py file in settings")
 

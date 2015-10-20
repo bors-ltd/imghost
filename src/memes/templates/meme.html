@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
-{% load compressed %}
+{% load pipeline %}
 
 {% block extra_js %}
-    {% compressed_js "meme" %}
+    {% javascript "meme" %}
 {% endblock extra_js %}
 
 {% block content %}

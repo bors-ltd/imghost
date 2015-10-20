@@ -1,7 +1,7 @@
 -r base.txt
 
-gunicorn==19.1.1
+gunicorn==19.3.0
 
-flup
+flup6
 psycopg2
 raven

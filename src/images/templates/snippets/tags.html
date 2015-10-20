@@ -4,7 +4,7 @@
   </div>
   <div class="panel-body">
     {% for tag in tags %}
-      <a href="{% url 'image_list' %}?tags={{ tag.name }}">
+      <a href="{% url 'image_list' %}?tags={{ tag.name|urlencode }}">
         <span class="{{ tag.css_class }}" style="font-size: {{ tag.font_size }}">{{ tag.name }}</span>
       </a>
     {% endfor %}

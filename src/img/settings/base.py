@@ -36,7 +36,6 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'pipeline',
     'widget_tweaks',
-    'south',
 )
 
 LOCAL_APPS = (
@@ -96,6 +95,11 @@ STATIC_ROOT = PUBLIC_ROOT.child('static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     DJANGO_ROOT.child('static'),
+)
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder',
 )
 
 MEDIA_ROOT = PUBLIC_ROOT.child('media')

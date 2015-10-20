@@ -11,7 +11,7 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def secure_url(context, url):
-    if isinstance(url, basestring):
+    if isinstance(url, str):
         url = reverse(url)
     url = context['request'].build_absolute_uri(url)
     if settings.SESSION_COOKIE_SECURE:
