@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 from logging.handlers import SysLogHandler
 import os
-from os.path import basename
 
 from django.core.urlresolvers import reverse_lazy
 
@@ -20,10 +19,10 @@ import getconf
 from unipath import Path
 
 # Build paths inside the project like this: BASE_DIR.child(...)
-CONFIGURATION_APP_ROOT = Path(__file__).ancestor(1)
+CONFIGURATION_APP_ROOT = Path(os.path.abspath(__file__)).ancestor(1)
 BASE_DIR = CONFIGURATION_APP_ROOT.ancestor(1)
 PROJECT_ROOT = BASE_DIR.ancestor(1)
-SITE_NAME = basename(PROJECT_ROOT)
+SITE_NAME = os.path.basename(PROJECT_ROOT)
 PUBLIC_ROOT = PROJECT_ROOT.child('public')
 
 CONFIG = getconf.ConfigGetter(SITE_NAME, [
