@@ -3,8 +3,6 @@ from __future__ import absolute_import, print_function, unicode_literals
 import itertools
 
 from django import forms
-from django.template.loader import render_to_string
-from django.utils.translation import ugettext_lazy as _
 
 from images import models
 
@@ -27,40 +25,24 @@ class UploadForm(forms.Form):
         return data
 
 
-class CheckboxSelectMultiple(forms.CheckboxSelectMultiple):
-    def render(self, name, value, attrs=None, choices=()):
-        if value is None:
-            value = self._empty_value
-        final_attrs = self.build_attrs(attrs)
-        choices = list(itertools.chain(self.choices, choices))
-        return render_to_string("snippets/checkbox_select_multiple.html", {
-            'name': name,
-            'value': value,
-            'attrs': final_attrs,
-            'choices': choices,
-        })
-
-
 class ImageForm(forms.ModelForm):
-    new_tags = forms.CharField(
-        label=_(u"New tags"), required=False, widget=forms.Textarea({'rows': '1', 'class': "form-control"}))
+    tags = forms.CharField(required=False, widget=forms.Textarea)
 
     class Meta:
         model = models.Image
-        fields = ('tags', 'new_tags', 'listed')
-        widgets = {
-            'tags': CheckboxSelectMultiple,
-        }
+        fields = ('tags', 'listed')
 
-    def clean_new_tags(self):
-        new_tags = set()
-        for new_tag in self.cleaned_data['new_tags'].splitlines():
-            new_tag = new_tag.strip()
-            if new_tag:
-                new_tags.add(new_tag)
-        return new_tags
+    def __init__(self, *args, **kwargs):
+        if kwargs['instance'] and 'new_tags' not in kwargs.setdefault('initial', {}):
+            kwargs['initial']['tags'] = "\r\n".join(kwargs['instance'].tags.values_list('name', flat=True))
+        super(ImageForm, self).__init__(*args, **kwargs)
 
     def save(self, *args, **kwargs):
+        # First remove plain text tags that the model form could not handle
+        tags = {name.strip() for name in self.cleaned_data.pop('tags').splitlines()}
+
         instance = super(ImageForm, self).save(*args, **kwargs)
-        for new_tag in self.cleaned_data['new_tags']:
-            instance.tags.add(models.Tag.objects.get_or_create(name=new_tag)[0])
+
+        # Now create new tags and set the final list of tag instances
+        tags = {models.Tag.objects.get_or_create(name__iexact=name)[0] for name in tags if name}
+        instance.tags.set(tags)
