@@ -151,6 +151,11 @@ PIPELINE_JS = {
 
 PIPELINE_JS_COMPRESSOR = None
 
+PIPELINE = {
+    'STYLESHEETS': PIPELINE_CSS,
+    'JAVASCRIPT': PIPELINE_JS,
+}
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

@@ -15,7 +15,7 @@ class UploadFormTests(LiveServerTestCase):
 
         self.test_img = SimpleUploadedFile(
             'test_img.jpg',
-            self.img_path,
+            bytes(self.img_path, 'utf8'),
             content_type='image/jpeg'
         )
 

@@ -1,7 +1,10 @@
-Django<1.9
-Pillow==3.0.0
+Django==1.10.4
+Pillow==3.4.2
 Unipath==1.1
-django-annoying==0.8.4
-django-pipeline==1.5.4
+django-annoying==0.10.3
+django-pipeline==1.6.9
 django-widget-tweaks==1.4.1
-requests==2.8.1
+requests==2.12.4
+futures==3.0.5
+contextlib2==0.5.4
+getconf==1.5.1
