@@ -46,7 +46,7 @@ ALLOWED_HOSTS = CONFIG.getlist('django.allowed_hosts')
 
 # Application definition
 
-DJANGO_APPS = (
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,18 +54,18 @@ DJANGO_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-)
+]
 
-THIRD_PARTY_APPS = (
+THIRD_PARTY_APPS = [
     'pipeline',
     'widget_tweaks',
-)
+]
 
-LOCAL_APPS = (
+LOCAL_APPS = [
     'images',
     'memes',
     'img',
-)
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -291,10 +291,10 @@ if ENVIRONMENT == 'prod':
 if ENVIRONMENT in ('dev', 'test'):
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-    INSTALLED_APPS += (
+    INSTALLED_APPS += [
         'debug_toolbar',
         'django_extensions',
-    )
+    ]
 
     MIDDLEWARE += [
         'debug_toolbar.middleware.DebugToolbarMiddleware',
