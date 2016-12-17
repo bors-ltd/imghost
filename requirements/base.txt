@@ -2,7 +2,8 @@ Django==1.10.4
 Pillow==3.4.2
 Unipath==1.1
 django-annoying==0.10.3
-django-pipeline==1.6.9
+#django-pipeline==1.6.9
+-e git+git@github.com:jazzband/django-pipeline.git#egg=django-pipeline
 django-widget-tweaks==1.4.1
 requests==2.12.4
 futures==3.0.5

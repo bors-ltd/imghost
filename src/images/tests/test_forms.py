@@ -10,7 +10,7 @@ class UploadFormTests(LiveServerTestCase):
 
     def setUp(self):
         self.img_url = self.live_server_url + '/static/test_img.jpg'
-        self.img_path = settings.DJANGO_ROOT + '/static/test_img.jpg'
+        self.img_path = settings.BASE_DIR + '/static/test_img.jpg'
         self.upload_url = reverse('upload')
 
         self.test_img = SimpleUploadedFile(
