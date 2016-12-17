@@ -119,9 +119,10 @@ DATABASES = {
         'USER': CONFIG.getstr('db.user'),
         'PASSWORD': CONFIG.getstr('db.password'),
         'HOST': CONFIG.getstr('db.host'),
-        'PORT': CONFIG.getint('db.port'),
+        'PORT': CONFIG.getstr('db.port'),  # "" means default port
         'ATOMIC_REQUESTS': CONFIG.getbool('db.atomic_requests', True),
         'AUTOCOMMIT': CONFIG.getbool('db.autocommit', True),
+        'CONN_MAX_AGE': 600,
     }
 }
 
