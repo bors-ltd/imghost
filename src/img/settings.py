@@ -274,6 +274,7 @@ if ENVIRONMENT == 'prod':
     SESSION_COOKIE_NAME = 's'
     SESSION_COOKIE_SECURE = True
 
+    TEMPLATES[0]['APP_DIRS'] = False
     TEMPLATES[0]['OPTIONS']['loaders'] = [
         ('django.template.loaders.cached.Loader', [
             'django.template.loaders.filesystem.Loader',
