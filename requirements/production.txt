@@ -1,7 +1,0 @@
--r base.txt
-
-gunicorn==19.6.0
-
-flup6
-psycopg2
-raven==5.32.0
