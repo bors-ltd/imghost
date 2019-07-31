@@ -40,3 +40,4 @@ TODO
 docs/_build
 /node_modules
 /local_settings.ini
+/.vscode
