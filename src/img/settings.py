@@ -240,8 +240,10 @@ if ENVIRONMENT == "prod":
         )
     ]
 
-    INSTALLED_APPS += ["raven.contrib.django.raven_compat"]
-    RAVEN_CONFIG = {"dsn": CONFIG.getstr("raven.dsn")}
+    USE_RAVEN = bool(CONFIG.getstr("raven.dsn"))
+    if USE_RAVEN:
+        INSTALLED_APPS += ["raven.contrib.django.raven_compat"]
+        RAVEN_CONFIG = {"dsn": CONFIG.getstr("raven.dsn")}
 
 if ENVIRONMENT in ("dev", "test"):
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
