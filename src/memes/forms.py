@@ -1,3 +1,4 @@
+import base64
 from io import BytesIO
 import re
 
@@ -19,7 +20,7 @@ class MemeUploadForm(forms.Form):
         data = self.cleaned_data["file"]
         matches = re.search(r"base64,(.*)", data)
         imgstr = matches.group(1)
-        imgcontent = BytesIO(imgstr.decode("base64"))
+        imgcontent = BytesIO(base64.b64decode(imgstr))
         img = ImageFile(imgcontent, name="temp.png")
 
         return img

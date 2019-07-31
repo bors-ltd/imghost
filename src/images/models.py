@@ -3,9 +3,7 @@ import random
 import string
 
 from django.db import models
-from django.utils import timezone
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from images.utils import create_thumb
@@ -39,7 +37,7 @@ class Image(models.Model):
 
     is_meme = models.BooleanField(_("Is meme"), default=False)
     source_image = models.ForeignKey(
-        "images.Image",
+        "self",
         verbose_name=_("Source image"),
         related_name="related_memes",
         null=True,
@@ -47,7 +45,7 @@ class Image(models.Model):
         on_delete=models.CASCADE,
     )
 
-    created_on = models.DateTimeField(_("Created on"), default=timezone.now)
+    created_on = models.DateTimeField(_("Created on"), auto_now_add=True)
 
     listed = models.BooleanField(default=False, verbose_name=_("Listed"))
 
@@ -90,7 +88,7 @@ class Image(models.Model):
 
     def generate_unique_key(self):
         key_chars = string.ascii_uppercase + string.digits
-        self.unique_key = "".join(random.choice(key_chars) for x in range(10))
+        self.unique_key = "".join(random.sample(key_chars, 10))
 
     def generate_extension(self):
         name, ext = splitext(self.image.url)
@@ -110,7 +108,6 @@ class Image(models.Model):
         self.thumb_large.save(name, large_thumb)
 
 
-@python_2_unicode_compatible
 class Tag(models.Model):
     name = models.CharField(max_length=256, unique=True)
 
