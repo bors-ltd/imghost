@@ -14,7 +14,7 @@ def download_image(url):
     name = basename(url)
     # Special case for Twitter, fuuuu
     if name.endswith(":large"):
-        name = name[:-len(":large")]
+        name = name[: -len(":large")]
     img_temp = BytesIO(r.content)
     image = ImageFile(img_temp, name=name)
 
@@ -23,7 +23,7 @@ def download_image(url):
 
 def create_thumb(image, size):
     _basename, ext = splitext(image.name)
-    ext = '.jpeg' if ext == '.jpg' else ext
+    ext = ".jpeg" if ext == ".jpg" else ext
     ext = ext[1:]
 
     thumbnail = Image.open(image.file.name)

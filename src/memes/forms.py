@@ -18,16 +18,16 @@ class MemeUploadForm(forms.Form):
     bottom_text = forms.CharField(required=False)
 
     def clean_file(self):
-        data = self.cleaned_data['file']
-        matches = re.search(r'base64,(.*)', data)
+        data = self.cleaned_data["file"]
+        matches = re.search(r"base64,(.*)", data)
         imgstr = matches.group(1)
-        imgcontent = BytesIO(imgstr.decode('base64'))
-        img = ImageFile(imgcontent, name='temp.png')
+        imgcontent = BytesIO(imgstr.decode("base64"))
+        img = ImageFile(imgcontent, name="temp.png")
 
         return img
 
     def clean(self):
         cleaned_data = super(MemeUploadForm, self).clean()
-        if not cleaned_data['top_text'] and not cleaned_data['bottom_text']:
+        if not cleaned_data["top_text"] and not cleaned_data["bottom_text"]:
             raise ValidationError("WHY U NO TYPE TEXT ლ(ಠ益ಠლ)")
         return cleaned_data

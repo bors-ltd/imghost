@@ -15,21 +15,19 @@ from images import models
 from images.utils import download_image
 
 
-@permission_required('images.add_image')
-@render_to('upload.html')
+@permission_required("images.add_image")
+@render_to("upload.html")
 def upload(request):
     form = forms.UploadForm(request.POST or None, request.FILES or None)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         if form.is_valid():
-            url = form.cleaned_data['url']
-            file = form.cleaned_data['file']
+            url = form.cleaned_data["url"]
+            file = form.cleaned_data["file"]
             image_file = file if file else download_image(url)
 
             image = models.Image.objects.create(
-                image=image_file,
-                source=url or '',
-                listed=False,
+                image=image_file, source=url or "", listed=False
             )
 
             return redirect(image.get_absolute_url())
@@ -37,55 +35,53 @@ def upload(request):
         else:
             messages.error(request, _("Please check the errors below."))
 
-    return {
-        'form': form,
-    }
+    return {"form": form}
 
 
-@render_to('list.html')
+@render_to("list.html")
 def image_list(request):
     images = models.Image.objects.filter(listed=True, is_meme=False)
 
-    tag_list = request.GET.getlist('tags')
+    tag_list = request.GET.getlist("tags")
     if tag_list:
         images = images.filter(tags__name__in=tag_list)
 
-    search_query = request.GET.get('q', "").strip()
+    search_query = request.GET.get("q", "").strip()
     if search_query:
         images = images.filter(tags__name__icontains=search_query)
 
     return {
-        'images': images,
-        'tags': models.Tag.objects.all(),
-        'form': forms.UploadForm(),
+        "images": images,
+        "tags": models.Tag.objects.all(),
+        "form": forms.UploadForm(),
     }
 
 
-@permission_required('images.change_image')
-@render_to('list.html')
+@permission_required("images.change_image")
+@render_to("list.html")
 def not_listed(request):
     images = models.Image.objects.filter(listed=False, is_meme=False)
 
-    return {'images': images}
+    return {"images": images}
 
 
-@permission_required('images.change_image')
-@render_to('list.html')
+@permission_required("images.change_image")
+@render_to("list.html")
 def not_tagged(request):
     images = models.Image.objects.filter(listed=True, tags__isnull=True, is_meme=False)
 
-    return {'images': images}
+    return {"images": images}
 
 
-@permission_required('images.delete_image')
-@render_to('list.html')
+@permission_required("images.delete_image")
+@render_to("list.html")
 def inappropriate(request):
     images = models.Image.objects.filter(inappropriate=True)
 
-    return {'images': images}
+    return {"images": images}
 
 
-@render_to('detail.html')
+@render_to("detail.html")
 def detail(request, unique_key):
     image = get_object_or_404(models.Image, unique_key=unique_key)
 
@@ -96,8 +92,8 @@ def detail(request, unique_key):
     else:
         base_key = image.unique_key
 
-    if request.method == 'POST' and request.user.has_perm('images.change_image'):
-        if form.is_valid() :
+    if request.method == "POST" and request.user.has_perm("images.change_image"):
+        if form.is_valid():
             form.save()
             messages.success(request, _("Image updated successfully."))
 
@@ -107,13 +103,13 @@ def detail(request, unique_key):
             messages.error(request, _("Please check the errors below."))
 
     return {
-        'unique_key': unique_key,
-        'image': image,
-        'form': form,
+        "unique_key": unique_key,
+        "image": image,
+        "form": form,
         # For memes
-        'base_key': base_key,
-        'related_memes': image.related_memes.all(),
-        'has_memes': len(image.related_memes.all()) > 0,
+        "base_key": base_key,
+        "related_memes": image.related_memes.all(),
+        "has_memes": len(image.related_memes.all()) > 0,
     }
 
 
@@ -121,10 +117,13 @@ def detail(request, unique_key):
 def flag_inappropriate(request, unique_key):
     image = get_object_or_404(models.Image, unique_key=unique_key)
     image.inappropriate = True
-    image.save(update_fields=['inappropriate'])
+    image.save(update_fields=["inappropriate"])
 
     messages.success(
-      request, _("This image was successfully flagged as inappropriate. We will soon investigate further.")
+        request,
+        _(
+            "This image was successfully flagged as inappropriate. We will soon investigate further."
+        ),
     )
 
     return HttpResponseRedirect(image.get_absolute_url())
