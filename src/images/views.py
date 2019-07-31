@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
-
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.http.response import HttpResponseRedirect

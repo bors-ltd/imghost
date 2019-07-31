@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 from logging.handlers import SysLogHandler
 import os
 
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 
 import getconf
 from unipath import Path
@@ -25,10 +25,7 @@ PROJECT_ROOT = BASE_DIR.ancestor(1)
 SITE_NAME = os.path.basename(PROJECT_ROOT)
 PUBLIC_ROOT = PROJECT_ROOT.child("public")
 
-CONFIG = getconf.ConfigGetter(
-    SITE_NAME,
-    ["/etc/%s/settings/" % SITE_NAME, PROJECT_ROOT.child("local_settings.ini")],
-)
+CONFIG = getconf.ConfigGetter(SITE_NAME, [PROJECT_ROOT.child("local_settings.ini")])
 
 ENVIRONMENT = CONFIG.getstr("environment", "dev")
 assert ENVIRONMENT in ("prod", "dev", "test")

@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
-
 from django import template
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 register = template.Library()

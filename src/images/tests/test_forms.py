@@ -1,5 +1,5 @@
 from django.test import LiveServerTestCase
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
 

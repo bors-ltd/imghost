@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
 from os.path import splitext
 import random
 import string
 
 from django.db import models
 from django.utils import timezone
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
@@ -46,6 +44,7 @@ class Image(models.Model):
         related_name="related_memes",
         null=True,
         blank=True,
+        on_delete=models.CASCADE,
     )
 
     created_on = models.DateTimeField(_("Created on"), default=timezone.now)
@@ -63,7 +62,7 @@ class Image(models.Model):
         verbose_name_plural = _("Images")
         ordering = ("-created_on",)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s%s" % (self.unique_key, self.extension)
 
     def get_absolute_url(self):

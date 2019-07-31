@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.db import migrations, models
 import django.utils.timezone
 
@@ -96,6 +93,7 @@ class Migration(migrations.Migration):
                         related_name="related_memes",
                         blank=True,
                         verbose_name="Source image",
+                        on_delete=models.CASCADE,
                     ),
                 ),
             ],
