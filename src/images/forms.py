@@ -45,7 +45,12 @@ class ImageForm(forms.ModelForm):
 
         # Now create new tags and set the final list of tag instances
         tags = {
-            models.Tag.objects.get_or_create(name__iexact=name)[0]
+            models.Tag.objects.get_or_create(
+                name__iexact=name,
+                # If the tag doesn't exist, give the default params
+                # "name__iexact" cannot be guess as a param
+                defaults={"name": name},
+            )[0]
             for name in tags
             if name
         }
