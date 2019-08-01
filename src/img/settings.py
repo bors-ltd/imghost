@@ -179,51 +179,34 @@ PIPELINE_JS_COMPRESSOR = None
 
 PIPELINE = {"STYLESHEETS": PIPELINE_CSS, "JAVASCRIPT": PIPELINE_JS}
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
-    "formatters": {
-        "verbose": {"format": "[phase] %(levelname)s %(asctime)s %(message)s"}
-    },
-    "handlers": {
-        "console": {"level": "INFO", "class": "logging.StreamHandler"},
-        # Send info messages to syslog
-        "syslog": {
-            "level": "INFO",
-            "class": "logging.handlers.SysLogHandler",
-            "facility": SysLogHandler.LOG_LOCAL2,
-            "address": "/dev/log" if os.path.exists("/dev/log") else "/var/run/syslog",
-            "formatter": "verbose",
-        },
-        "mail_admins": {
-            "level": "WARNING",
-            "filters": ["require_debug_false"],
-            "class": "django.utils.log.AdminEmailHandler",
-        },
-        # critical errors are logged to sentry
-        #'sentry': {
-        #    'level': 'ERROR',
-        #    'filters': ['require_debug_false'],
-        #    'class': 'raven.contrib.django.handlers.SentryHandler',
-        # },
-    },
-    "loggers": {
-        # This is the "catch all" logger
-        "": {
-            "handlers": ["console", "syslog", "mail_admins"],
-            "level": "DEBUG",
-            "propagate": False,
-        }
-    },
-}
-
 LOGIN_REDIRECT_URL = reverse_lazy("image_list")
 
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_SUBJECT_PREFIX = "[imghost] "
+
+LEGAL_MENTIONS = CONFIG.getstr("img.legal_mentions")
+
+# Dev settings
+
+if ENVIRONMENT == "dev":
+    INSTALLED_APPS += ["debug_toolbar", "django_extensions"]
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+
+# Prod settings
+
 if ENVIRONMENT == "prod":
-    DEFAULT_FROM_EMAIL = CONFIG.getstr("email.from")
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_HOST = CONFIG.getstr("email.host", "localhost")
     EMAIL_PORT = CONFIG.getint("email.port", 25)
+    EMAIL_USE_SSL = CONFIG.getbool("email.use_ssl")
+    EMAIL_USE_TLS = CONFIG.getbool("email.use_tls")
+
+    # The address used as From: in send_mail()
+    DEFAULT_FROM_EMAIL = CONFIG.getstr("django.default_from_email", "webmaster@localhost")
+
+    # The address used as From: in error messages
+    SERVER_EMAIL = CONFIG.getstr("django.server_email", "root@localhost")
+    ADMINS = [("unused", email) for email in CONFIG.getlist("django.admins")]
 
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_REAL_SCHEME", "https")
     SESSION_COOKIE_NAME = "s"
@@ -239,19 +222,3 @@ if ENVIRONMENT == "prod":
             ],
         )
     ]
-
-    USE_RAVEN = bool(CONFIG.getstr("raven.dsn"))
-    if USE_RAVEN:
-        INSTALLED_APPS += ["raven.contrib.django.raven_compat"]
-        RAVEN_CONFIG = {"dsn": CONFIG.getstr("raven.dsn")}
-
-if ENVIRONMENT in ("dev", "test"):
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
-    INSTALLED_APPS += ["debug_toolbar", "django_extensions"]
-
-    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
-
-    CACHES = {"default": {"BACKEND": "django.core.cache.backends.dummy.DummyCache"}}
-
-LEGAL_MENTIONS = CONFIG.getstr("img.legal_mentions")
