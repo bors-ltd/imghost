@@ -45,7 +45,7 @@ def image_list(request):
 
     search_query = request.GET.get("q", "").strip()
     if search_query:
-        images = images.filter(tags__name__icontains=search_query)
+        images = images.filter(tags__name__icontains=search_query).distinct()
 
     return {
         "images": images,
