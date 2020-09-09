@@ -6,7 +6,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from images.utils import create_thumb
+from images.utils import create_thumb, identify_format
 
 
 upload_path = "i/%Y/%m/"
@@ -92,6 +92,9 @@ class Image(models.Model):
 
     def generate_extension(self):
         name, ext = splitext(self.image.url)
+        if not ext:
+            # Sniff extension from content
+            ext = identify_format(self.image)
         self.extension = ext
 
     def generate_image_filename(self):

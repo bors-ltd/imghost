@@ -1,4 +1,5 @@
 from io import BytesIO
+import mimetypes
 from os.path import splitext
 from os.path import basename
 
@@ -36,3 +37,10 @@ def create_thumb(image, size):
     tmp_file = BytesIO()
     thumbnail.save(tmp_file, ext)
     return ImageFile(tmp_file)
+
+
+def identify_format(field):
+    # The image is not saved yet, read the memory or temporary file open on upload
+    image = Image.open(field.file)
+    # Let it raise if the format is unknown
+    return mimetypes.guess_extension(image.get_format_mimetype(), strict=False)
