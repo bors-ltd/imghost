@@ -210,11 +210,16 @@ if ENVIRONMENT == "prod":
     SERVER_EMAIL = CONFIG.getstr("django.server_email", "root@localhost")
     ADMINS = [("unused", email) for email in CONFIG.getlist("django.admins")]
 
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_REAL_SCHEME", "https")
-    SESSION_COOKIE_NAME = "s"
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_SECONDS = 63072000  # 2 years
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SECURE = True
 
-    TEMPLATES[0]["APP_DIRS"] = False
+    TEMPLATES[0]["APP_DIRS"] = False  # Must not be set with loaders
     TEMPLATES[0]["OPTIONS"]["loaders"] = [
         (
             "django.template.loaders.cached.Loader",
