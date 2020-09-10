@@ -20,8 +20,8 @@ def upload(request):
     if request.method == "POST":
         if form.is_valid():
             url = form.cleaned_data["url"]
-            file = form.cleaned_data["file"]
-            image_file = file if file else download_image(url)
+            file_ = form.cleaned_data["file"]
+            image_file = file_ if file_ else download_image(url)
 
             image = models.Image.objects.create(
                 image=image_file, source=url or "", listed=False

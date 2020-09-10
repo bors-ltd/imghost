@@ -1,6 +1,7 @@
 from os.path import splitext
 import random
 import string
+import urllib.parse
 
 from django.db import models
 from django.urls import reverse
@@ -91,7 +92,11 @@ class Image(models.Model):
         self.unique_key = "".join(random.sample(key_chars, 10))
 
     def generate_extension(self):
-        name, ext = splitext(self.image.url)
+        # Clean up URL to keep only the path part
+        url = urllib.parse.unquote(self.image.url)
+        url = urllib.parse.urlparse(url)
+        # Assuming it's a filename
+        name, ext = splitext(url.path)
         if not ext:
             # Sniff extension from content
             ext = identify_format(self.image)
